@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: app
+    build: .
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - enrollment
+
+
+  db:
+    container_name: db
+    image: postgres:15.2-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    networks:
+      - enrollment
+
+networks:
+  enrollment:
+    driver: bridge
